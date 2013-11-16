@@ -11,11 +11,13 @@ peer.on('connection', function(conn) {
   conn.on('open', function(){
     conn.send("hello other browser!");
     $(".space").click(function() {
-        var data = { "p": $( this ).index() }
+        var data = { "p": $( this ).index() + 1 }
         conn.send(data);
       })
 
     conn.on('data', function(data){
+      $(".space:nth-child(" + data.p + ")").append("<p>O</p>");
+
       console.log('Received', data)
     })
   })
@@ -36,12 +38,13 @@ peer.on('open', function(id) {
     var conn = peer.connect(pId);
     conn.on('open', function() {
       $(".space").click(function() {
-        var data = { "p": $( this ).index() }
+        var data = { "p": $( this ).index() + 1 }
         conn.send(data);
       })
 
       conn.on('data', function(data) {
         console.log('Received', data);
+        $(".space:nth-child(" + data.p + ")").append("<p>O</p>");
       });
     })
   }
