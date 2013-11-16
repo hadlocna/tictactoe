@@ -1,0 +1,10 @@
+<div class="container">
+  <ul>
+    <% @games.each do |game| %>
+      <li><a href="/play/<%= game.id %>/<%= game.users.first.id %>"><%= game.id %>---<%= game.users.first.username %></a></li>
+    <% end %>
+  </ul>
+  <form action="/games/create" method="post">
+    <input type="submit" value="Create">
+  </form>
+</div>
