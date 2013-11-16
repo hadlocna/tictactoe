@@ -1,20 +1,41 @@
-var peer = new Peer({key: 'ry9t770xq4hx5hfr'});
-  // peer.on('open', function(id) {
-  //   console.log('My peer ID is: ' + id);
-  // });
+var peer = new Peer({
+  key: 'ry9t770xq4hx5hfr'
+});
+// peer.on('open', function(id) {
+//   console.log('My peer ID is: ' + id);
+// });
 
-peer.on('connection', function(conn){
+peer.on('connection', function(conn) {
   console.log("yippee!");
+
+  conn.on('open', function(){
+    conn.send("hello other browser!");
+
+    conn.on('data', function(data){
+      console.log('Received', data)
+    })
+  })
+  // conn.send("hello other browser!");
 })
+
 
 peer.on('open', function(id) {
-  if ($( ".board" ).data( "p-id" ) !== "") {
-    var pId = $(".board" ).data("p-id");
-    var connection = peer.connect(pId);
-
+  if ($(".board").data("p-id") !== "") {
+    var pId = $(".board").data("p-id");
   } else {
-    // send p-id to server
-    console.log(id);
-    $.post("/pid", {pid: id});
+    $.post("/pid", {
+      pid: id
+    });
   }
-})
+
+  if (pId) {
+    var conn = peer.connect(pId);
+    conn.on('open', function() {
+      conn.send("oh hey there buddy!");
+
+      conn.on('data', function(data) {
+        console.log('Received', data);
+      });
+    })
+  }
+});
