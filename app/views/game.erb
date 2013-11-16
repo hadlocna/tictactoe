@@ -6,7 +6,7 @@
 
 
 
-<div class="board">
+<div class="board"  data-p-id="<% if @game.pid != nil %><%= @game.pid %><% end %>">
   <div class="space">
   </div>
   <div class="space">
@@ -26,3 +26,6 @@
   <div class="space">
   </div>
 </div>
+
+<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+<script src="/js/peer.js"></script>

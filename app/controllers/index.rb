@@ -39,3 +39,9 @@ post '/users/create' do
   session[:user_id] = user.id
   redirect to '/lobby'
 end
+
+post '/pid' do
+  puts params
+  game = Game.find(session[:game_id])
+  game.update_attributes(:pid => params[:pid])
+end
