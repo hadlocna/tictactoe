@@ -10,6 +10,10 @@ peer.on('connection', function(conn) {
 
   conn.on('open', function(){
     conn.send("hello other browser!");
+    $(".space").click(function() {
+        var data = { "p": $( this ).index() }
+        conn.send(data);
+      })
 
     conn.on('data', function(data){
       console.log('Received', data)
@@ -31,7 +35,10 @@ peer.on('open', function(id) {
   if (pId) {
     var conn = peer.connect(pId);
     conn.on('open', function() {
-      conn.send("oh hey there buddy!");
+      $(".space").click(function() {
+        var data = { "p": $( this ).index() }
+        conn.send(data);
+      })
 
       conn.on('data', function(data) {
         console.log('Received', data);
