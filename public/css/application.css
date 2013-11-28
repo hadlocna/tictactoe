@@ -26,3 +26,18 @@ th {
   font-size:40px;
   vertical-align:middle;
 }
+
+.drop-zone {
+  margin: 20px auto;
+  width: 600px;
+  height: 100px;
+  border: 1px dotted black;
+  text-align: center;
+  line-height: 100px;
+  font-size: 20px;
+  font-family: monospace;
+}
+
+/*.drop-zone:hover {
+  cursor: crosshair;
+}*/
