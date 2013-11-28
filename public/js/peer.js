@@ -7,6 +7,7 @@ var peer = new Peer({
 
 peer.on('connection', function(conn) {
   console.log("yippee!");
+  conn.serialization = "binary-utf8";
 
   conn.on('open', function(){
     conn.send("hello other browser!");
@@ -26,8 +27,8 @@ peer.on('connection', function(conn) {
         conn.send(binaryString);
       }
 
-      reader.readAsBinaryString(file);
-    })
+      reader.readAsArrayBuffer(file);
+    });
     // $(".space").click(function() {
     //     var data = { "p": $( this ).index() + 1 }
     //     conn.send(data);
@@ -35,7 +36,6 @@ peer.on('connection', function(conn) {
 
     conn.on('data', function(data){
       // $(".space:nth-child(" + data.p + ")").append("<p>O</p>");
-
       console.log('Received', data)
     })
   })
@@ -54,6 +54,7 @@ peer.on('open', function(id) {
 
   if (pId) {
     var conn = peer.connect(pId);
+    conn.serialization = "binary-utf8"
     conn.on('open', function() {
 
       // $(".space").click(function() {
@@ -62,8 +63,9 @@ peer.on('open', function(id) {
       // })
 
       conn.on('data', function(data) {
-        debugger;
-        console.log('Received', data);
+        var file = new Blob([data],{type: 'image/jpeg'})
+        saveAs(file)
+        console.log('Received', file);
         // $(".space:nth-child(" + data.p + ")").append("<p>O</p>");
       });
     })
