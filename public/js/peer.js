@@ -21,10 +21,12 @@ peer.on('connection', function(conn) {
       event.preventDefault();
       var file = event.originalEvent.dataTransfer.files[0]
       var reader = new FileReader();
+      reader.file = file;
 
       reader.onload = function(event){
-        var binaryString = reader.result;
-        conn.send(binaryString);
+        var ArrayBuffer = reader.result;
+        var file = this.file
+        conn.send({fileData: ArrayBuffer, fileName: file.name, fileType: file.type});
       }
 
       reader.readAsArrayBuffer(file);
@@ -63,9 +65,10 @@ peer.on('open', function(id) {
       // })
 
       conn.on('data', function(data) {
-        var file = new Blob([data],{type: 'image/jpeg'})
-        saveAs(file)
-        console.log('Received', file);
+        var data = data;
+        var file = new Blob([data.fileData], {type: data.fileType})
+        saveAs(file, data.fileName)
+        // console.log('Received', file);
         // $(".space:nth-child(" + data.p + ")").append("<p>O</p>");
       });
     })
